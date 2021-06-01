@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `ims`. `order_customer` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `customer`_id INT(11) NOT NULL,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`customer_id`) REFRENCES `customers`(`id`)
+    FOREIGN KEY (`customer_id`) REFERENCES `customers`(`id`)
     
     
 
