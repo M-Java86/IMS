@@ -13,18 +13,18 @@ CREATE TABLE IF NOT EXISTS `ims`.`customers` (
 
 CREATE TABLE IF NOT EXISTS `ims`.`items` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(40) Null Default Null,
+    `item_name` VARCHAR(40) Null Default Null,
     `cost` Double(40,2) NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
 
 );
 
-CREATE TABLE IF NOT EXISTS `ims`. `orders` (
+CREATE TABLE IF NOT EXISTS `ims`. `order_customer` (
     `id INT(11) NOT NULL AUTO_INCREMENT,
-    `client_id INT(11),
-    `address`VARCHAR(40) NULL DEFAULT NULL,
-    `fulfilled` BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY(`id`),
+    `customer_id` INT(11) NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`customer_id`) REFERENCES `customers`(`id')
     
 
-)
+);
+
