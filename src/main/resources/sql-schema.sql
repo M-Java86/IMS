@@ -51,5 +51,3 @@ CREATE TABLE IF NOT EXISTS `ims`. 'accounts' (
     PRIMARY KEY (`id`)
 
 );
-CREATE TABLE IF NOT EXISTS `ims`. `customers`(`id`) on DELETE 
-
