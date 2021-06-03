@@ -50,5 +50,5 @@ CREATE TABLE IF NOT EXISTS `ims`. 'accounts' (
     `is_loggin` Boolean NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
 
-
+);
 
