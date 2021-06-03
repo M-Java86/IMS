@@ -1,9 +1,9 @@
 Coverage: 34%
-# Project Title
+# Inventory Management System
+An inventory Management System program written in Java and also using 
+an MySQL backend. This the Final project of the QA Academy cohort. 
 
-One Paragraph of project description goes here
-
-## Getting Started
+ Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
@@ -11,13 +11,17 @@ These instructions will get you a copy of the project up and running on your loc
 
 What things you need to install the software and how to install them
 
-```
+. Java 14
+
+. MySQL 8.0
+ 
 Give examples
 ```
 
-### Installing
+ Installing
 
-A step by step series of examples that tell you how to get a development env running
+First Downlaod the files and open up the project in eclipse or any other Java IDE.
+Make Certain MySQL is downloaded and in db.properites make sure db.url, db.user and db.password is correct.
 
 Say what the step will be
 

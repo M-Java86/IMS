@@ -24,6 +24,16 @@ CREATE TABLE IF NOT EXISTS `ims`. `order_customer` (
     `customer`_id INT(11) NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`customer_id`) REFERENCES `customers`(`id`)
+    `cost` Double(40,2) NULL DEFAULT NULL,
+    PRIMARY KEY (`id`)
+
+);
+
+CREATE TABLE IF NOT EXISTS `ims`. `order_customer` (
+    `id INT(11) NOT NULL AUTO_INCREMENT,
+    `customer_id` INT(11) NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`customer_id`) REFERENCES `customers`(`id')
     
 );
 Drop TABLE IF EXISTS `order_customers`;
@@ -49,5 +59,6 @@ CREATE TABLE IF NOT EXISTS `ims`. 'accounts' (
     `password` VARCHAR(40) NULL DEFAULT NULL,
     `is_loggin` Boolean NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
-
+                                                        
 );
+
