@@ -16,17 +16,29 @@ public class IMS {
 	public static final Logger LOGGER = LogManager.getLogger();
 
 	private final CustomerController customers;
+	private final ItemController items;
+	private final orderController orders;
+	private final AccountController accounts;
 	private final Utils utils;
+	private Boolean isloggin;
 
 	public IMS() {
 		this.utils = new Utils();
 		final CustomerDAO custDAO = new CustomerDAO();
 		this.customers = new CustomerController(custDAO, utils);
-	}
+		final ItemDAO itemDAO = new ItemDAO();
+		this.items = new ItemsController(itemDAO, utils);
+		final OrderDAO orderDAO = new OrderDAO();
+		this.orders = new OrderController(orderDAO, utils);	
+		final.AccountDAO accountDAO = new AccountDAO();
+		this.accounts = new AccountController(accountDAO, utils);
 
 	public void imsSystem() {
 		LOGGER.info("Welcome to the Inventory Management System!");
 		DBUtils.connect();
+		DBUtils.getInstance().init("src/main/resources/sql-schema.sql","src/main/resources/sql-data.sql");
+		
+		isOperations = accounts.logIn();
 
 		Domain domain = null;
 		do {
@@ -49,12 +61,28 @@ public class IMS {
 			case CUSTOMER:
 				active = this.customers;
 				break;
+				
 			case ITEM:
+				active = this.items;
 				break;
+				
 			case ORDER:
+				active = this.orders;
 				break;
+				
+			case ACCOUNT:
+				if(operations) {
+					active=this.accounts;
+					break;
+					
+				} else {
+						LOGGER.info("You must be operations to access ACCOUNTS");
+						break;
+				}
+			
 			case STOP:
 				return;
+				
 			default:
 				break;
 			}
@@ -77,17 +105,22 @@ public class IMS {
 		case CREATE:
 			crudController.create();
 			break;
+			
 		case READ:
 			crudController.readAll();
 			break;
+			
 		case UPDATE:
 			crudController.update();
 			break;
+			
 		case DELETE:
 			crudController.delete();
 			break;
+			
 		case RETURN:
 			break;
+			
 		default:
 			break;
 		}
