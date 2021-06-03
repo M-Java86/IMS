@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 import com.qa.ims.persistence.domain.Account;
 import com.qa.ims.utils.DBUtils;
 
-public class AccountDAO implements Dao<Account> {
+public abstract class AccountDAO implements Dao<AccountDAO> {
 
 	public static final Logger LOGGER = LogManager.getLogger();
 
@@ -95,7 +95,7 @@ public class AccountDAO implements Dao<Account> {
 				Statement statement = connection.createStatement();) {
 			statement.executeUpdate("INSERT INTO accounts(user_name, password,is_admin) values('" + account.getUserName()
 					+ "','" + account.getPassword() + "'," + account.getIsAdminInt() +")");
-			return readLatest();
+			return readLatest.next();
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
