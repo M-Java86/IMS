@@ -17,8 +17,7 @@ import com.qa.ims.utils.DBUtils;
 public class OrderDAO implements Dao<Order>{
 	public static final Logger LOGGER = LogManager.getLogger();
 
-	@Override
-	@Override
+	
 	public Order modelFromResultSet1(ResultSet resultSet) throws SQLException {
 		Long id = resultSet.getLong("id");
 		Long customerId = resultSet.getLong("customer_id");
@@ -252,14 +251,13 @@ public class OrderDAO implements Dao<Order>{
 		return 0;
 	}
 
-	@Override
 	public Order read(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Items modelFromResultSet(ResultSet resultSet) throws SQLException {
+	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
