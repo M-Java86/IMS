@@ -27,18 +27,18 @@ public class AccountController implements CrudController<Account> {
 	}
 	
 	public Boolean logIn() {
-		Boolean isAdmin = null;
-		while(isAdmin==null) {
+		Boolean isManager = null;
+		while(isManager==null) {
 			LOGGER.info("Please enter your user name");
 			String userName = utils.getString();
 			LOGGER.info("Please enter your password");
 			String password = utils.getString();
-			isAdmin = accountDAO.logIn(userName,password);
-			if (isAdmin == null) {
+			isManager = accountDAO.logIn(userName,password);
+			if (isManager == null) {
 				System.out.println("Incorrect login. Try again.");
 			}
 		}
-		return isAdmin;
+		return isManager;
 	}
 
 	/**
@@ -63,8 +63,8 @@ public class AccountController implements CrudController<Account> {
 		LOGGER.info("Please enter a password");
 		String password = utils.getString();
 		LOGGER.info("Do you want this person to be an admin? [TRUE OR FALSE]");
-		Boolean isAdmin = utils.getBoolean();
-		Account account = accountDAO.create(new Account(userName, password,isAdmin));
+		Boolean isManager = utils.getBoolean();
+		Account account = accountDAO.create(new Account(userName, password,isManager));
 		LOGGER.info("Account created");
 		return account;
 	}
@@ -81,8 +81,8 @@ public class AccountController implements CrudController<Account> {
 		LOGGER.info("Please enter a password");
 		String password = utils.getString();
 		LOGGER.info("Do you want this person to be an admin? [TRUE OR FALSE]");
-		Boolean isAdmin = utils.getBoolean();
-		Account account = accountDAO.update(new Account(id, userName, password,isAdmin));
+		Boolean isManager = utils.getBoolean();
+		Account account = accountDAO.update(new Account(id, userName, password,isManager));
 		LOGGER.info("Account Updated");
 		return account;
 	}
