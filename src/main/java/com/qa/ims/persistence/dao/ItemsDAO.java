@@ -1,3 +1,5 @@
+package com.qa.ims.persistence.dao;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,8 +20,8 @@ public abstract class ItemsDAO implements Dao<Items>{
 	public Items modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long id = resultSet.getLong("id");
 		String itemName = resultSet.getString("item_name");
-		double price = resultSet.getDouble("price");
-		return new Items(id, itemName, price);
+		double cost = resultSet.getDouble("cost");
+		return new Items(id, itemName, cost);
 	}
 
 	/**
@@ -66,8 +68,8 @@ public abstract class ItemsDAO implements Dao<Items>{
 	public Items create(Items item) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("INSERT INTO items(item_name, price) values('" + item.getItemName()
-					+ "','" + item.getPrice() + "')");
+			statement.executeUpdate("INSERT INTO items(item_name, cost) values('" + item.getItemName()
+					+ "','" + item.getCost() + "')");
 			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -101,7 +103,7 @@ public abstract class ItemsDAO implements Dao<Items>{
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
 			statement.executeUpdate("update items set item_name ='" + item.getItemName() + "', cost ='"
-					+ item.getPrice() + "' where id =" + item.getId());
+					+ item.getCost() + "' where id =" + item.getId());
 			return readItems(item.getId());
 		} catch (Exception e) {
 			LOGGER.debug(e);

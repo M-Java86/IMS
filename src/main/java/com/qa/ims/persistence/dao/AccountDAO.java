@@ -58,11 +58,11 @@ public abstract class AccountDAO implements Dao<AccountDAO> {
 	 * @return A list of accounts
 	 */
 	@Override
-	public List<Account> readAll() {
+	public List<AccountDAO> readAll() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("select * from accounts");) {
-			List<Account> accounts = new ArrayList<>();
+			List<AccountDAO> accounts = new ArrayList<>();
 			while (resultSet.next()) {
 				accounts.add(modelFromResultSet(resultSet));
 			}
@@ -92,7 +92,6 @@ public abstract class AccountDAO implements Dao<AccountDAO> {
 	 * 
 	 * @param account - takes in an account object. id will be ignored
 	 */
-	@Override
 	public Account create(Account account) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
@@ -126,7 +125,6 @@ public abstract class AccountDAO implements Dao<AccountDAO> {
 	 *                 update that account in the database
 	 * @return
 	 */
-	@Override
 	public Account update(Account account) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
