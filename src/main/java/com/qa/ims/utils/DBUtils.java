@@ -1,6 +1,9 @@
 package com.qa.ims.utils;
 
+
+
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -17,26 +20,26 @@ public class DBUtils {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	private final String dbUrl;
+	private final String DB_URL;
 
-	private final String dbUser;
+	private final String DB_USER;
 
-	private final String dbPassword;
+	private final String DB_PASS;
 
 	private DBUtils(String properties) {
 		Properties dbProps = new Properties();
-		try (InputStream fis = ClassLoader.getSystemResourceAsStream(properties)) {
+		try (InputStream fis = new FileInputStream(properties)) {
 			dbProps.load(fis);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
-		this.dbUrl = dbProps.getProperty("db.url", "");
-		this.dbUser = dbProps.getProperty("db.user", "");
-		this.dbPassword = dbProps.getProperty("db.password", "");
+		this.DB_URL = dbProps.getProperty("db.url", "");
+		this.DB_USER = dbProps.getProperty("db.user", "");
+		this.DB_PASS = dbProps.getProperty("db.password", "");
 	}
 
 	public DBUtils() {
-		this("db.properties");
+		this("src/main/resources/db.properties");
 	}
 
 	public int init(String... paths) {
@@ -70,10 +73,10 @@ public class DBUtils {
 	}
 
 	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+		return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 	}
 
-	private static DBUtils instance;
+	public static DBUtils instance;
 
 	public static DBUtils connect() {
 		instance = new DBUtils();

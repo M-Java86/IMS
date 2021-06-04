@@ -1,15 +1,16 @@
 package com.qa.ims.utils;
 
+
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Utils {
-	
-	private static final Logger LOGGER = LogManager.getLogger();
+	private static Logger LOGGER = LogManager.getLogger();
 
 	private final Scanner scanner;
+	private String errorMSG = "Error - Please enter a number";
 
 	public Utils(Scanner scanner) {
 		super();
@@ -21,14 +22,13 @@ public class Utils {
 	}
 
 	public Long getLong() {
-		String input = null;
+		String input = getString();
 		Long longInput = null;
 		do {
 			try {
-				input = getString();
 				longInput = Long.parseLong(input);
 			} catch (NumberFormatException nfe) {
-				LOGGER.info("Error - Please enter a number");
+				LOGGER.info(errorMSG);
 			}
 		} while (longInput == null);
 		return longInput;
@@ -39,17 +39,41 @@ public class Utils {
 	}
 
 	public Double getDouble() {
-		String input = null;
+		String input = getString();
 		Double doubleInput = null;
 		do {
 			try {
-				input = getString();
 				doubleInput = Double.parseDouble(input);
 			} catch (NumberFormatException nfe) {
-				LOGGER.info("Error - Please enter a number");
+				LOGGER.info(errorMSG);
 			}
 		} while (doubleInput == null);
 		return doubleInput;
+	}
+	
+	public int getInt() {
+		String input = getString();
+		Integer intInput = null;
+		do {
+			try {
+				intInput = Integer.parseInt(input);
+			} catch (NumberFormatException nfe) {
+				LOGGER.info(errorMSG);
+			}
+		} while (intInput == null);
+		return intInput;
+	}
+	public Boolean getBoolean() {
+		String input = getString();
+		Boolean boolInput = null;
+		do {
+			try {
+				boolInput = Boolean.parseBoolean(input);
+			} catch (NumberFormatException nfe) {
+				LOGGER.info("Error - Please enter TRUE or FALSE");
+			}
+		} while (boolInput == null);
+		return boolInput;
 	}
 
 }
