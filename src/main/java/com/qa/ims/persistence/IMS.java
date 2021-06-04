@@ -26,7 +26,7 @@ public class IMS {
 	private final OrderController orders;
 	private final AccountController accounts;
 	private final Utils utils;
-	private Boolean isAdmin;
+	private Boolean isManager;
 
 	public IMS() {
 		this.utils = new Utils();
@@ -45,7 +45,7 @@ public class IMS {
 		DBUtils.connect();
 		DBUtils.getInstance().init("src/main/resources/sql-schema.sql","src/main/resources/sql-data.sql");
 		
-		isAdmin = accounts.logIn();
+		isManager = accounts.logIn();
 
 		Domain domain = null;
 		do {
@@ -75,11 +75,11 @@ public class IMS {
 				active = this.orders;
 				break;
 			case ACCOUNT:
-				if(isAdmin) {
+				if(isManager) {
 					active=this.accounts;
 					break;
 				} else {
-					LOGGER.info("You Must be an admin to access Accounts");
+					LOGGER.info("You Must be an manager to access Accounts");
 					break;
 				}
 			case STOP:
