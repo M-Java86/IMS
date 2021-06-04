@@ -84,4 +84,14 @@ public boolean equals(Object object) {
 	return true;
 }
 
+public Object readLatest() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+public Object update(Items updated) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
 }
