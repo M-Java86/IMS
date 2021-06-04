@@ -108,11 +108,4 @@ public class Account {
 			return false;
 		return true;
 	}
-	public String getIsManagerInt() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-
 }

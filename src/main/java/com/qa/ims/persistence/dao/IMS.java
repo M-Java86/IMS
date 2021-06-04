@@ -1,12 +1,19 @@
 package com.qa.ims;
 
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.qa.ims.controller.AccountController;
 import com.qa.ims.controller.Action;
 import com.qa.ims.controller.CrudController;
 import com.qa.ims.controller.CustomerController;
+import com.qa.ims.controller.ItemsController;
+import com.qa.ims.controller.OrderController;
+import com.qa.ims.persistence.dao.AccountDAO;
 import com.qa.ims.persistence.dao.CustomerDAO;
+import com.qa.ims.persistence.dao.ItemsDAO;
+import com.qa.ims.persistence.dao.OrderDAO;
 import com.qa.ims.persistence.domain.Domain;
 import com.qa.ims.utils.DBUtils;
 import com.qa.ims.utils.Utils;
@@ -16,29 +23,30 @@ public class IMS {
 	public static final Logger LOGGER = LogManager.getLogger();
 
 	private final CustomerController customers;
-	private final ItemController items;
-	private final orderController orders;
+	private final ItemsController items;
+	private final OrderController orders;
 	private final AccountController accounts;
 	private final Utils utils;
-	private Boolean isloggin;
+	private Boolean isManager;
 
 	public IMS() {
 		this.utils = new Utils();
 		final CustomerDAO custDAO = new CustomerDAO();
 		this.customers = new CustomerController(custDAO, utils);
-		final ItemDAO itemDAO = new ItemDAO();
+		final ItemsDAO itemDAO = new ItemsDAO();
 		this.items = new ItemsController(itemDAO, utils);
 		final OrderDAO orderDAO = new OrderDAO();
-		this.orders = new OrderController(orderDAO, utils);	
-		final.AccountDAO accountDAO = new AccountDAO();
+		this.orders = new OrderController(orderDAO, utils);
+		final AccountDAO accountDAO = new AccountDAO();
 		this.accounts = new AccountController(accountDAO, utils);
+	}
 
 	public void imsSystem() {
 		LOGGER.info("Welcome to the Inventory Management System!");
 		DBUtils.connect();
 		DBUtils.getInstance().init("src/main/resources/sql-schema.sql","src/main/resources/sql-data.sql");
 		
-		isOperations = accounts.logIn();
+		isManager = accounts.logIn();
 
 		Domain domain = null;
 		do {
@@ -61,33 +69,27 @@ public class IMS {
 			case CUSTOMER:
 				active = this.customers;
 				break;
-				
 			case ITEM:
 				active = this.items;
 				break;
-				
 			case ORDER:
 				active = this.orders;
 				break;
-				
 			case ACCOUNT:
-				if(operations) {
+				if(isManager) {
 					active=this.accounts;
 					break;
-					
 				} else {
-						LOGGER.info("You must be operations to access ACCOUNTS");
-						break;
+					LOGGER.info("You Must be an admin to access Accounts");
+					break;
 				}
-			
 			case STOP:
 				return;
-				
 			default:
 				break;
 			}
 
-			LOGGER.info(() ->"What would you like to do with " + domain.name().toLowerCase() + ":");
+			LOGGER.info("What would you like to do with " + domain.name().toLowerCase() + ":");
 
 			Action.printActions();
 			Action action = Action.getAction(utils);
@@ -105,22 +107,17 @@ public class IMS {
 		case CREATE:
 			crudController.create();
 			break;
-			
 		case READ:
 			crudController.readAll();
 			break;
-			
 		case UPDATE:
 			crudController.update();
 			break;
-			
 		case DELETE:
 			crudController.delete();
 			break;
-			
 		case RETURN:
 			break;
-			
 		default:
 			break;
 		}

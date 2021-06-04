@@ -13,9 +13,7 @@ import org.apache.logging.log4j.Logger;
 import com.qa.ims.persistence.domain.Account;
 import com.qa.ims.utils.DBUtils;
 
-//used CustomerDAO.Java for reference and setup//
-
-public abstract class AccountDAO implements Dao<AccountDAO> {
+public abstract class AccountDAO implements Dao<Account> {
 
 	public static final Logger LOGGER = LogManager.getLogger();
 
@@ -24,24 +22,23 @@ public abstract class AccountDAO implements Dao<AccountDAO> {
 		Long id = resultSet.getLong("id");
 		String firstName = resultSet.getString("user_name");
 		String password = resultSet.getString("password");
-		Boolean isManager = resultSet.getBoolean("is_manager");
-		return new Account(id,firstName,password,isManager);
+		Boolean isAdmin = resultSet.getBoolean("is_admin");
+		return new Account(id,firstName,password,isAdmin);
 	}
 	public Boolean boolFromResultSet(ResultSet resultSet) throws SQLException {
-		return resultSet.getBoolean("is_manager");
+		return resultSet.getBoolean("is_admin");
 	}
 	
 	/**
-	 * Reads all customers from the database
+	 * Takes in the user Name and password of an account for logging in
 	 * 
-	 * 
-	 * @return A Boolean which states whether the account is an Operations
+	 * @return A Boolean which states whether the account is an Manager
 	 */
 	
 	public Boolean logIn(String userName,String password) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("select is_manager from accounts WHERE user_name ='"+userName+"' and password = '"+password+"'");) {
+				ResultSet resultSet = statement.executeQuery("select is_admin from accounts WHERE user_name ='"+userName+"' and password = '"+password+"'");) {
 					resultSet.next();
 					return boolFromResultSet(resultSet);
 		} catch (SQLException e) {
@@ -58,11 +55,11 @@ public abstract class AccountDAO implements Dao<AccountDAO> {
 	 * @return A list of accounts
 	 */
 	@Override
-	public List<AccountDAO> readAll() {
+	public List<Account> readAll() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("select * from accounts");) {
-			List<AccountDAO> accounts = new ArrayList<>();
+			List<Account> accounts = new ArrayList<>();
 			while (resultSet.next()) {
 				accounts.add(modelFromResultSet(resultSet));
 			}
@@ -92,12 +89,13 @@ public abstract class AccountDAO implements Dao<AccountDAO> {
 	 * 
 	 * @param account - takes in an account object. id will be ignored
 	 */
+	@Override
 	public Account create(Account account) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("INSERT INTO accounts(user_name, password,is_manager) values('" + account.getUserName()
-					+ "','" + account.getPassword() + "'," + account.getIsManagerInt() +")");
-			return readLatest.next();
+			statement.executeUpdate("INSERT INTO accounts(user_name, password,is_admin) values('" + account.getUserName()
+					+ "','" + account.getPassword() + "'," + account.getIsAdminInt() +")");
+			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -125,11 +123,12 @@ public abstract class AccountDAO implements Dao<AccountDAO> {
 	 *                 update that account in the database
 	 * @return
 	 */
+	@Override
 	public Account update(Account account) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
 			statement.executeUpdate("update accounts set user_name ='" + account.getUserName() + "', password ='"
-					+ account.getPassword() + "', is_manager ='"+ account.getIsManagerInt() +"' where id =" + account.getId());
+					+ account.getPassword() + "', is_admin ='"+ account.getIsAdminInt() +"' where id =" + account.getId());
 			return readAccount(account.getId());
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -156,4 +155,3 @@ public abstract class AccountDAO implements Dao<AccountDAO> {
 	}
 
 }
-	
